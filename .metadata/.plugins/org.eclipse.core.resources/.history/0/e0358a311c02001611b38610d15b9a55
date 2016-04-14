@@ -1,0 +1,49 @@
+package com.zhgame.common.custom.base;
+
+public class ServiceRtnResult {
+	
+	private boolean isRet  = false;
+	
+	private int errorCode;
+	
+	private Object obj;
+
+	public ServiceRtnResult() {
+		super();
+	}
+
+	public ServiceRtnResult(boolean isRet) {
+		super();
+		this.isRet = isRet;
+	}
+
+	public boolean isRet() {
+		return isRet;
+	}
+
+	public void setRet(boolean isRet) {
+		this.isRet = isRet;
+	}
+
+	public int getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public Object getObj() {
+		return obj;
+	}
+
+	public void setObj(Object obj) {
+		this.obj = obj;
+	}
+
+	@Override
+	public String toString() {
+		return "ServiceRtnResult (isRet=" + isRet + ", errorCode=" + errorCode + ", obj=" + obj + ")";
+	}
+	
+}

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: joy
+Build-Jdk: 1.6.0_13
+Build-time: 
+Created-By: Maven Integration for Eclipse
+SVN-Revision: 
+

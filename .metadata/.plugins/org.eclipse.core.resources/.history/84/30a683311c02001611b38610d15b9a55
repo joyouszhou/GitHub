@@ -1,0 +1,222 @@
+package com.zhgame.common.utils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class LogFormat {
+	static public enum LOGSTEP {
+		SUCCESS, FAILED
+	}
+
+	public static String format(String message, String info) {
+		if (message == null) {
+			message = "";
+		}
+		if (info == null) {
+			info = "";
+		}
+
+		MetaInfo meta = getMetaInfo();
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[PROCESS]");
+		buffer.append("[").append(meta.getUUID()).append("][").append(meta.getAPPKEY()).append("][");
+		long time = meta.getTIME();
+		buffer.append(time);
+		if (time < 10) {
+			buffer.append("ms");
+		} else if (time < 100) {
+			buffer.append("m");
+		}
+		buffer.append("][").append(getMethodInfo()).append("]");
+		buffer.append("[MSG={").append(message).append("}]");
+		if (info.length() < 2048) {
+			buffer.append("[PRM={").append(info).append("}]");
+		} else {
+			buffer.append("[PRM={").append("...").append("}]");
+		}
+		return buffer.toString();
+	}
+	
+	/**
+	 * 设置本次访问返回结果类型
+	 * 
+	 * @param status
+	 * @param message
+	 */
+	public static void status(LOGSTEP status, String message) {
+		if (LOGSTEP.SUCCESS == status) {
+			contextMap().put("_status_", "SUE");
+		} else if (LOGSTEP.FAILED == status) {
+			contextMap().put("_status_", "FAD");
+		}
+		if (message != null) {
+			contextMap().put("_msg_", message);
+		}
+	}
+
+	private static String getStatus() {
+		String statusString = (String) contextMap().get("_status_");
+		if (statusString == null) {
+			statusString = "DEF";
+		}
+		return statusString;
+	}
+
+	private static String getMsg() {
+		return (String) contextMap().get("_msg_");
+	}
+
+	/**
+	 * 格式化日志
+	 * 
+	 * @param message
+	 * @param paramObj
+	 * @param returnObj
+	 * @return
+	 */
+	public static String format(String message, Object paramObj, Object returnObj) {
+		if (message == null) {
+			message = "";
+		}
+		if (paramObj == null) {
+			paramObj = "";
+		}
+		if (returnObj == null) {
+			returnObj = "";
+		}
+		MetaInfo meta = getMetaInfo();
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[PROCESS]");
+		buffer.append("[").append(meta.getUUID()).append("][").append(meta.getAPPKEY()).append("][");
+		long time = meta.getTIME();
+		buffer.append(time);
+		if (time < 10) {
+			buffer.append("ms");
+		} else if (time < 100) {
+			buffer.append("m");
+		}
+		buffer.append("][").append(getMethodInfo()).append("]");
+		buffer.append("[MSG={").append(message).append("}]");
+		String paramString = paramObj.toString();
+		String returnString = returnObj.toString();
+		if (paramString.length() < 2048*4) {
+			buffer.append("[PRM={").append(paramString).append("}]");
+		} else {
+			buffer.append("[PRM={").append("...").append("}]");
+		}
+		if (returnString.length() < 2048*4) {
+			buffer.append("[RTN={").append(returnString).append("}]");
+		} else {
+			buffer.append("[RTN={").append("...").append("}]");
+		}
+		return buffer.toString();
+	}
+
+	/**
+	 * 格式化访问日志，仅供拦截器中调用。
+	 * 
+	 * @param paramObj
+	 * @param returnObj
+	 * @return
+	 */
+	public static String accessformat(Object paramObj, Object returnObj) {
+		if (paramObj == null) {
+			paramObj = "";
+		}
+		if (returnObj == null) {
+			returnObj = "";
+		}
+		MetaInfo meta = getMetaInfo();
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("[ACC-").append(getStatus()).append("]");
+		buffer.append("[").append(meta.getUUID()).append("][").append(meta.getAPPKEY()).append("][");
+		long time = meta.getTIME();
+		buffer.append(time);
+		if (time < 10) {
+			buffer.append("ms");
+		} else if (time < 100) {
+			buffer.append("m");
+		}
+		buffer.append("][").append(getMethodInfo()).append("]");
+		buffer.append("[MSG={").append(getMsg()).append("}]");
+		String paramString = paramObj.toString();
+		String returnString = returnObj.toString();
+		if (paramString.length() < 2048*4) {
+			buffer.append("[PRM={").append(paramString).append("}]");
+		} else {
+			buffer.append("[PRM={").append("...").append("}]");
+		}
+		if (returnString.length() < 2048*4) {
+			buffer.append("[RTN={").append(returnString).append("}]");
+		} else {
+			buffer.append("[RTN={").append("...").append("}]");
+		}
+		return buffer.toString();
+	}
+
+	/**
+	 * 线程本地临时存储数据
+	 */
+	private static final ThreadLocal<Map<String, Object>> CONTEXT = new ThreadLocal<Map<String, Object>>();
+
+	public static void init(MetaInfo info, String method) {
+		if (info == null) {
+			info = new MetaInfo(null);
+		}
+		if (info != null) {
+			info.init();
+			contextMap().put("_metainfo_", info);
+		}
+		if (method != null) {
+			method = method.replace("execution(", "").replace("))", ")");
+			contextMap().put("_method_", method);
+		}
+		contextMap().put("_status_", "DEF");
+		contextMap().put("_msg_", "");
+	}
+
+	private static String getMethodInfo() {
+		Map<String, Object> map = contextMap();
+		String method = null;
+		if (map != null) {
+			method = (String) map.get("_method_");
+		}
+		if (method != null) {
+			return method;
+		}
+		return "";
+	}
+
+	public static MetaInfo getMetaInfo() {
+		Map<String, Object> map = contextMap();
+		MetaInfo meta = null;
+		if (map != null) {
+			meta = (MetaInfo) map.get("_metainfo_");
+		}
+		if (meta == null) {
+			meta = new MetaInfo(null);
+			init(meta, "");
+		}
+		return meta;
+	}
+
+	public static void destroy() {
+		Map<String, Object> map = contextMap();
+		if (map != null) {
+			if (!map.isEmpty()) {
+				map.clear();
+			}
+		}
+		CONTEXT.remove();
+	}
+
+	private static Map<String, Object> contextMap() {
+		Map<String, Object> map = CONTEXT.get();
+		if (map == null) {
+			map = new HashMap<String, Object>(4);
+			CONTEXT.set(map);
+		}
+		return map;
+	}
+}

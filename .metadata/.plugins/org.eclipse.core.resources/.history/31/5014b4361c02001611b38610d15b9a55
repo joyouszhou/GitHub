@@ -1,0 +1,8 @@
+#账号
+user.email.not.valid=请输入有效的邮箱
+user.mobile.phone.number.not.valid=请输入有效的手机号
+user.captcha.invalid=请输入有效的验证码
+
+#客服
+user.workcontent.not.valid=反馈内容过长
+customer.work.mobile.number.not.valid=请输入有效的联系方式

@@ -1,0 +1,127 @@
+package com.zhgame.common.utils;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class AppConfigDto
+implements Serializable
+{
+private static final long serialVersionUID = -7039965060790762249L;
+private int id;
+private int channelId;
+private String channelName;
+private int billAppId;
+private String otherAppId;
+private String appName;
+private Date createDate;
+private Date updateDate;
+private String otherAppsecret;
+private String expandOne;
+private String expandTwo;
+private String content;
+
+public String toString()
+{
+  StringBuffer buffer = new StringBuffer();
+  buffer.append("AppConfigDto(id=").append(this.id).append(",channelId=").append(this.channelId).append(",channelName=").append(this.channelName).append(",billAppId=").append(this.billAppId)
+    .append(",otherAppId=").append(this.otherAppId).append(",appName=").append(this.appName).append(",createDate=").append(this.createDate).append(",updateDate=").append(this.updateDate)
+    .append(",otherAppsecret=").append(this.otherAppsecret).append(",expandOne=").append(this.expandOne).append(",expandTwo=").append(this.expandTwo).append(",content=").append(this.content).append(")");
+  return buffer.toString();
+}
+
+public int getId() {
+  return this.id;
+}
+
+public void setId(int id) {
+  this.id = id;
+}
+
+public int getChannelId() {
+  return this.channelId;
+}
+
+public void setChannelId(int channelId) {
+  this.channelId = channelId;
+}
+
+public String getChannelName() {
+  return this.channelName;
+}
+
+public void setChannelName(String channelName) {
+  this.channelName = channelName;
+}
+
+public int getBillAppId() {
+  return this.billAppId;
+}
+
+public void setBillAppId(int billAppId) {
+  this.billAppId = billAppId;
+}
+
+public String getOtherAppId() {
+  return this.otherAppId;
+}
+
+public void setOtherAppId(String otherAppId) {
+  this.otherAppId = otherAppId;
+}
+
+public String getAppName() {
+  return this.appName;
+}
+
+public void setAppName(String appName) {
+  this.appName = appName;
+}
+
+public Date getCreateDate() {
+  return this.createDate;
+}
+
+public void setCreateDate(Date createDate) {
+  this.createDate = createDate;
+}
+
+public Date getUpdateDate() {
+  return this.updateDate;
+}
+
+public void setUpdateDate(Date updateDate) {
+  this.updateDate = updateDate;
+}
+
+public String getOtherAppsecret() {
+  return this.otherAppsecret;
+}
+
+public void setOtherAppsecret(String otherAppsecret) {
+  this.otherAppsecret = otherAppsecret;
+}
+
+public String getExpandOne() {
+  return this.expandOne;
+}
+
+public void setExpandOne(String expandOne) {
+  this.expandOne = expandOne;
+}
+
+public String getExpandTwo() {
+  return this.expandTwo;
+}
+
+public void setExpandTwo(String expandTwo) {
+  this.expandTwo = expandTwo;
+}
+
+public String getContent() {
+  return this.content;
+}
+
+public void setContent(String content) {
+  this.content = content;
+}
+}

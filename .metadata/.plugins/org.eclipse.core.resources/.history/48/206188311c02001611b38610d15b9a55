@@ -1,0 +1,55 @@
+package com.zhgame.common.custom.base;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class BaseController {
+
+	protected Object send200(int status, String message) {
+		return sendInfo(new SuccessResponse(status, message), HttpStatus.OK);
+	}
+
+	protected <T> Object send200(T t) {
+		return sendInfo(t, HttpStatus.OK);
+	}
+
+	protected Object send400Error(int errorCode) {
+		return sendInfo(new ErrorResponse(errorCode, null, null, null), HttpStatus.BAD_REQUEST);
+	}
+
+	protected Object send400Error(int errorCode, String requestUrl) {
+		return sendInfo(new ErrorResponse(errorCode, null, null, requestUrl), HttpStatus.BAD_REQUEST);
+	}
+	
+	protected Object send400Error(int errorCode, String sysMessage, String clientMessage, String requestUrl) {
+		return sendInfo(new ErrorResponse(errorCode, sysMessage, clientMessage, requestUrl), HttpStatus.BAD_REQUEST);
+	}
+
+	protected Object send500Error(int errorCode, String sysMessage, String clientMessage, String requestUrl) {
+		return sendInfo(new ErrorResponse(errorCode, sysMessage, clientMessage, requestUrl),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	private <T> Object sendInfo(T t, HttpStatus status) {
+		return new ResponseEntity<T>(t, status);
+	}
+
+	public static void main(String[] args) {
+		BaseController bc = new BaseController();
+
+		Map<String, Object> rs = new HashMap<String, Object>();
+		rs.put("app_key", "111");
+		rs.put("tag", "111");
+		rs.put("channel_id", "111");
+		rs.put("username", "111");
+		rs.put("password", "111");
+
+		bc.send200(rs);
+	}
+
+}

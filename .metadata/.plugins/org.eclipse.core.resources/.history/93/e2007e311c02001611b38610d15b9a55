@@ -1,0 +1,12 @@
+package com.zhgame.common.utils.buss;
+
+import com.zhgame.common.core.spring.SpringContextHolder;
+import com.zhgame.modules.app.service.AppService;
+
+public class AppUtil {
+	
+	public static String getSecretBykey(String appKey){
+		AppService appService = SpringContextHolder.getBean("appService");
+		return appService.getAppSecret(appKey);
+	}
+}

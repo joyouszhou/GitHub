@@ -1,0 +1,14 @@
+package com.zhgame.common.custom.http;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.zhgame.common.utils.HttpClientUtil;
+
+@Repository
+public class HttpBaseDao {
+	public String httpRequest(String httpUrl, Map<String, String> headers, Map<String, Object> params) {
+		return HttpClientUtil.doPost(httpUrl, headers, params);
+	}
+}

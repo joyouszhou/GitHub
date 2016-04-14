@@ -1,0 +1,159 @@
+package com.zhgame.common.custom;
+
+public class ErrorCode {
+
+	/**
+	 * 服务器级别
+	 */
+	public final static int SYSTEM_ERROR = 10001; // 服务器异常
+	public final static int SYSTEM_REQUEST_TIMEOUT = 10002; // 请求超时
+	public final static int SYSTEM_SYNC_APP_ERROR = 10003; // app同步失败
+
+	/**
+	 * 验证级别
+	 */
+	public final static int METHOD_ARGUMENT_NOTVALID = 30001; // MethodArgumentNotValidException
+	public static final int NO_PERMISSION = 30002; // 无权限访问，签名验证失败
+	public final static int HEADER_NOT_EMPTY = 30003; // http请求头里参数不能为空
+	public final static int PHONE_NOTVALID = 30004;
+	public final static int EMAIL_NOTVALID = 30005;
+	public final static int PARAMS_NOTVALID = 30006; //参数不完整 20141018海外版本
+	
+	/**
+	 * sdk-service公共返回值封装
+	 */
+	public final static int SDK_SERVICE_PARAM_NOTVALID = 20001; // 参数无效
+	public final static int SDK_SERVICE_APPKEY_NOT_EXIST = 20002; // app不存在
+	public final static int SDK_SERVICE_EXCEPTION = 20003; // sdk-service异常
+
+	public final static int ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL = 20004; // 橙柚账号签名错误
+	public final static int ORANGELO_ACCOUNT_SIGN_INVALID = 20005; // 橙柚账号签名无效
+																	// 过期
+	public final static int ORANGELO_ACCOUNT_PARAM_ERROR = 20006; // 橙柚账号参数错误
+	public final static int ORANGELO_ACCOUNT_SYSTEM_ERROR = 20007; // 橙柚账号系统错误
+	public final static int ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL = 20008; // 橙柚账号协议之外
+
+	public final static int CHANGYOU_ACCOUNT_PARAM_ERROR = 20009; // 参数不完整
+	public final static int CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL = 20010; // 签名不正确
+	public final static int CHANGYOU_ACCOUNT_IP_BLACKLIST = 20011; // ip黑名单 98
+	public final static int CHANGYOU_ACCOUNT_SYSTEM_ERROR = 20012; // ip黑名单 99
+	public final static int CHANGYOU_ACCOUNT_RETURN_UNKNOWN_PROTOCOL = 20013; // 畅游账号协议之外
+
+
+	/**
+	 * 商品
+	 */
+	public final static int USER_GOODS_ERROR_CODE = 23001; // 获取失败
+
+	/**
+	 * 订单
+	 */
+	// 创建订单
+	public final static int ORDDER_CREATE_ERROR = 24001; // 创建订单失败
+	public final static int ORDDER_CREATE_VERIFY_ERROR = 24007; // 创建订单失败,游戏、商品等信息校验失败
+	// 订单验证
+	public final static int ORDDER_VERIFY_ERROR_CODE2 = 24002; // 订单验证失败
+	// 订单查询
+	public final static int ORDDER_QUERY_ERROR_CODE1 = 24005; // 查询订单失败
+	public final static int ORDDER_REQUESTUPMPTN_ERROR_CODE = 24006; // 获取银联流水号失败
+	public final static int ORDDER_TENCENT_LOGIN_VERIFY_FAIL = 24008; // 登录验证失败
+																		// 重新登录
+	public final static int ORDDER_TENCENT_CREATE_ORDER_FAIL = 24009; // 应用宝下单失败
+	public final static int ORDDER_TENCENT_APPCONGIG_ERROR = 24010; // 在线参数配置问题
+	public final static int ORDDER_GAMEGROUP_CREATE_ORDER_FAIL = 24011;// 游戏群下单失败
+	public final static int ORDDER_CURRENT_VERFIY_ERROR = 24012;// 币种验证 异常
+
+	/**
+	 * 工单
+	 */
+	public final static int CUSTOMERS_COMMIT_FAIL = 25001; // 提交意见反馈失败
+	public final static int CUSTOMERS_QUERY_FAIL = 25002; // 获取工单列表失败
+	public final static int CUSTOMERS_TYPE_QUERY_FAIL = 25003; // 获取工单类型列表失败
+
+	/**
+	 * 版本
+	 */
+	public final static int VERSION_UPDATE_ERROR = 26000; // 获取最新更新版本错误
+
+	/****************** 激活码 *****************/
+	public final static int ACTIVATE_CODE_USE_FAIL = 27001; // 激活失败
+	public final static int ACTIVATE_CODE_NOT_PROVIDE = 27002; // 激活码不符合规定
+	public final static int ACTIVATE_CODE_IS_USED = 27003; // 激活码已被使用
+	public final static int ACTIVATE_CODE_VERIFY_FAIL = 27004;//
+	public final static int NOT_MOMO_IDFA = 27005;
+	
+	
+	/**
+	 * 注册
+	 */
+	public final static int USER_REGISTER_ERROR = 22000; // 注册失败
+	public final static int USER_CHANGYOU_REGISTER_PHONE_HASREGISTER = 22001; // 手机号已经注册
+	public final static int USER_CHANGYOU_REGISTER_PHONE_INVALID = 22002; // 手机号格式不正确
+	public final static int USER_CHANGYOU_REGISTER_CAPTCHA_SEND_LIMIT = 22003; // 发送验证码超限
+	public final static int USER_CHANGYOU_REGISTER_CAPTCHA_ERROR = 22004; // 验证码输入的不正确
+	public final static int USER_CHANGYOU_REGISTER_CAPTCHA_INVALID = 22005; // 验证码过期、失效
+	public final static int USER_CHANGYOU_REGISTER_CAPTCHA_SEND_FAIL = 22006; // 验证码下发失败
+	public final static int USER_CHANGYOU_REGISTER_EMAIL_HASREGISTER = 22007; // 邮箱已经注册
+	public final static int USER_CHANGYOU_REGISTER_EMAIL_INVALID = 22008; // 邮箱格式不正确
+	public final static int USER_CHANGYOU_REGISTER_EMAIL_SEND_LIMIT = 22009; // 发送邮件超限
+	public final static int USER_CHANGYOU_REGISTER_EMAIL_SENT_UNACTIVATE = 22010; // 已发送
+																					// 24小时未激活
+	public final static int USER_CHANGYOU_REGISTER_ACCOUNT_HASREGISTER = 22011; // 个性化账号已注册
+	public final static int USER_CHANGYOU_REGISTER_ACCOUNT_INVALID = 22012; // 账号格式不正确
+	public final static int USER_CHANGYOU_REGISTER_IP_LIMIT = 22013; // ip受限
+	public final static int USER_CHANGYOU_ACCOUNT_STOPWORD = 22014; // 禁用词
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_SAMEACCOUNT = 22015; // 账号不能与密码相同
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_SAMEPHONE = 22016; // 账号不能与密码相同
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_SAMEMAIL = 22017; // 账号不能与密码相同
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_NOT_NULL = 22018; // 密码不可以为空
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_LENGTH_INVALID = 22019; // 长度4-16
+	public final static int USER_CHANGYOU_REGISTER_PASSWORD_RULE_ERROR = 22020; // 密码包含特殊字符
+	public final static int USER_CHANGYOU_REGISTER_SIMPLE_PASSWORD = 22021; // 密码过于简单
+	public final static int USER_CHANGYOU_AUTOCREATECN_ERROR = 22022; // 获取账号
+
+	public final static int USER_ORANGELO_REGISTER_PHONE_HASREGISTER = 22023; // 手机号已经注册
+	public final static int USER_ORANGELO_REGISTER_CAPTCHA_SEND_FAIL = 22024; // 验证码下发失败
+	public final static int USER_ORANGELO_REGISTER_CAPTCHA_FREQUENTLY = 22025; // 下发验证码频繁
+	public final static int USER_ORANGELO_REGISTER_CAPTCHA_SEND_LIMIT = 22026; // 发送验证码超限
+	public final static int USER_ORANGELO_REGISTER_PHONE_INVALID = 22027; // 手机号格式不正确
+	public final static int USER_ORANGELO_REGISTER_CAPTCHA_ERROR = 22028; // 验证码输入的不正确
+	public final static int USER_ORANGELO_REGISTER_ACCOUNT_TYPE_INVALID = 22029; // 个性化注册时，不可输入手机号
+	public final static int USER_ORANGELO_REGISTER_ACCOUNT_HASREGISTER = 22030; // 个性化账号已注册
+	public final static int USER_ORANGELO_REGISTER_PASSWORD_SAMEACCOUNT = 22031; // 账号不能与密码相同
+	public final static int USER_ORANGELO_REGISTER_PASSWORD_NOT_NULL = 22032; // 密码不可以为空
+	public final static int USER_ORANGELO_REGISTER_PASSWORD_LENGTH_INVALID = 22033; // 长度8-16
+	public final static int USER_ORANGELO_REGISTER_PASSWORD_BLANK = 22034; // 密码包含空格
+	public final static int USER_ORANGELO_REGISTER_SIMPLE_PASSWORD = 22035; // 密码过于简单
+	public final static int USER_ORANGELO_REGISTER_PASSWORD_INVALID = 22036; // 输入有效的密码
+	public final static int USER_ORANGELO_REGISTER_ACCOUNT_INVALID = 22037; // 输入有效的账号
+	public final static int USER_ORANGELO_REGISTER_CAPTCHA_INVALID = 22038; // 输入有效的验证码
+
+	public final static int USER_CHANGYOU_TOURISTREGISTER_FAIL = 22039; // 遊客註冊失敗
+	public final static int USER_CHANGYOU_TOURISTUPDATECN_FAIL = 22040; // 遊客更新用戶名失敗
+
+	public final static int USER_CHANGYOU_TOURISTBING_TOKENINVAID = 22041; // 遊客註token无效
+	public final static int USER_CHANGYOU_TOURISTBING_ACCOUNTINVAID = 22042; // 遊客账号不符合规则
+	public final static int USER_CHANGYOU_TOURISTBING_PASSWORDINVAID = 22043; // 遊客密码不符合规则
+	public final static int USER_CHANGYOU_TOURISTBING_ACCOUNTEXIST = 22044; // 遊客用户已存在
+	public final static int USER_CHANGYOU_NOT_TOURIST_MODEL = 22045; // 游戏使用的是非游客模式
+	public final static int USER_CHANGYOU_IS_TOURIST_ERROR = 22046; // 判断是否是游客模式错误
+	
+	/**
+	 * 登录
+	 */
+	public final static int USER_CHANGYOU_LOGIN_ERROR = 21000; // 登录失败
+	public final static int USER_CHANGYOU_LOGIN_LIMIT = 21001; // 操作频繁(限制规则:同一账号一分钟请求次数超过6次同一IP一分钟请求次数超过40次)
+	public final static int USER_LOGIN_ERROR_CODE2 = 21002; // 用戶名不存在
+	public final static int USER_LOGIN_ERROR_CODE3 = 21003; // 密码错误
+	public final static int USER_LOGIN_ERROR_CODE10 = 21010; // 密码des对称加解密失败
+	public final static int USER_LOGIN_ERROR_CODE11 = 21011; // 账号校验失败
+	public final static int USER_LOGIN_ERROR_CODE13 = 21013; // 登录失败用户被禁用一段时间
+	public final static int USER_TOKEN_VERIFY_FAIL = 21014; // token验证失败
+	public final static int USER_LOGIN_ACCOUNT_INVALID = 21015; // 账号格式错误
+	
+	/**
+	 * 橙柚
+	 */
+	public final static int CHANGYOU_TOURIS_BIND_FAIL=29001;//游客绑定失败
+	public final static int CHANGYOU_TOURIS_REGISTER_FAIL=29002;
+}

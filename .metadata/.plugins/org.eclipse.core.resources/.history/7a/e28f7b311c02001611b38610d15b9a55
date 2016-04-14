@@ -1,0 +1,19 @@
+package com.zhgame.common.utils.buss;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import com.zhgame.common.utils.PropertiesUtil;
+
+public class SDKUtil {
+	
+	@Value("${remoteHost}")
+	private static String hostUrl;
+	
+	public static String getSDKHostUrl(){
+		return PropertiesUtil.getProperty("remoteHost");
+	}
+	public static String getTencentOrderUrl(){
+		return PropertiesUtil.getProperty("tencent.create.order.url");
+	}
+	
+}

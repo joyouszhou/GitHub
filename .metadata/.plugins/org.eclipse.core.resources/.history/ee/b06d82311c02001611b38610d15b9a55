@@ -1,0 +1,12 @@
+package com.zhgame.common.utils;
+
+import java.util.List;
+
+public abstract interface AppInterface
+{
+  public abstract AppDto getApp(MetaInfo paramMetaInfo, String paramString);
+
+  public abstract List<AppDto> getAppList(MetaInfo paramMetaInfo);
+
+  public abstract AppConfigDto getAppConfig(MetaInfo paramMetaInfo, String paramString1, String paramString2);
+}

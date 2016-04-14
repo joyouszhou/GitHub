@@ -1,0 +1,73 @@
+package com.zhgame.common.utils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ValidateUtil {
+	/**
+	 * 检测密码是否包含特殊字符
+	 * @param password
+	 * @return true包含 false不包含
+	 */
+	public static boolean pwdContainsSpechars(String password) {
+		String[] blackList = { " ", ",", "'", "\"", "，", "’", "‘", "”", "“" };
+		for (String val : blackList) {
+			if (password.contains(val)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 检测密码是否和账号相同
+	 * @param password
+	 * @param account
+	 * @return true 相同 false 不相同
+	 */
+	public static boolean pwdSameAccount(String password, String account) {
+		return password.equals(account);
+	}
+	
+	/**
+	 * 检测密码是否是简单
+	 * 规则：简单密码（单一字符、正序、逆序）
+	 * @param password
+	 * @return true 简单密码 false 非简单密码
+	 */
+	public static boolean pwdIsSimple(String password) {
+		boolean simpleFlagSame = true; // 是否是单一字符
+		boolean simpleFlagToBig = true; // 是否是顺序的
+		boolean simpleFlagToSmall = true;// 是否是逆序的
+		int passwordLength = password.length();
+		for (int i = 0; i < passwordLength - 1; i++) {
+			if (password.charAt(i) != password.charAt(i + 1)) {
+				simpleFlagSame = false;
+				break;
+			}
+		}
+		for (int i = 0; i < passwordLength - 1; i++) {
+			if (password.charAt(i) + 1 != password.charAt(i + 1)) {
+				simpleFlagToBig = false;
+				break;
+			}
+		}
+		for (int i = 0; i < passwordLength - 1; i++) {
+			if (password.charAt(i) - 1 != password.charAt(i + 1)) {
+				simpleFlagToSmall = false;
+				break;
+			}
+		}
+		if (!simpleFlagSame && !simpleFlagToBig && !simpleFlagToSmall) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean pwdIsValid(String password) {
+		Pattern pattern = Pattern.compile("^[A-Za-z0-9_]{4,16}$");
+		Matcher matcher = pattern.matcher(password); 
+		return matcher.matches();
+	}
+	
+}

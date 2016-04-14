@@ -1,0 +1,19 @@
+package com.zhgame.common.custom;
+
+import com.zhgame.common.custom.base.MyException;
+
+public class BusinessException extends MyException{
+	private static final long serialVersionUID = 1L;
+	
+	public BusinessException(int exceptionCode) {
+		super(exceptionCode);
+	}
+
+	public BusinessException(int exceptionCode, String exceptionInfo) {
+		super(exceptionCode, exceptionInfo);
+	}
+	
+	public BusinessException(int exceptionCode, String exceptionInfo, Exception exception) {
+		super(exceptionCode, exceptionInfo, exception);
+	}
+}

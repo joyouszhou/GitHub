@@ -1,0 +1,445 @@
+package com.zhgame.common.custom;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SDKStatusMapper {
+
+	// 手机验证 -1本地参数不完整 -2app不存咋 -3本接口异常
+	// 1输入参数不完整,2用户名已存在,3手机号格式不正确,4签名不正确,5发送短信超限,98IP非白名单,99大平台异常错误,
+	public static class CYAccountPhoneVerify {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.USER_CHANGYOU_REGISTER_PHONE_HASREGISTER);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_REGISTER_PHONE_INVALID);
+			StatusMap.put(4, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(5, ErrorCode.USER_CHANGYOU_REGISTER_CAPTCHA_SEND_LIMIT);
+			StatusMap.put(98, ErrorCode.CHANGYOU_ACCOUNT_IP_BLACKLIST);
+			StatusMap.put(99, ErrorCode.CHANGYOU_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.CHANGYOU_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+
+	// 手机注册 -1本地参数不完整
+	// -2app不存咋-3本接口异常0下发短信成功,1输入参数不完整,2签名不正确,3用户名已存在,4注册账号格式错误,5密码位数不对【一次MD5加密为32位】
+	// 7验证码不正确,10验证码已失效,98IP非白名单,99大平台异常错误
+	public static class CYAccountPhoneRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_REGISTER_PHONE_HASREGISTER);
+			StatusMap.put(4, ErrorCode.USER_CHANGYOU_REGISTER_PHONE_INVALID);
+			StatusMap.put(5, ErrorCode.USER_REGISTER_ERROR);
+			StatusMap.put(7, ErrorCode.USER_CHANGYOU_REGISTER_CAPTCHA_ERROR);
+			StatusMap.put(10, ErrorCode.USER_CHANGYOU_REGISTER_CAPTCHA_INVALID);
+			StatusMap.put(98, ErrorCode.CHANGYOU_ACCOUNT_IP_BLACKLIST);
+			StatusMap.put(99, ErrorCode.CHANGYOU_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+
+		}
+	}
+
+	/*
+	 * 0：下发邮件成功 1：输入参数不完整 2：用户名已存在 3：邮箱格式不正确 4：签名不正确 5：用户下发邮件受限制了 20140311
+	 * 6：已申请注册，但24小时内未激活 20140311 7：没有要重发对象 98：ip非白名单 99：异常错误
+	 */
+	public static class CYAccountEmailRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.USER_CHANGYOU_REGISTER_EMAIL_HASREGISTER);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_REGISTER_EMAIL_INVALID);
+			StatusMap.put(4, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(5, ErrorCode.USER_CHANGYOU_REGISTER_EMAIL_SEND_LIMIT);
+			StatusMap.put(6, ErrorCode.USER_CHANGYOU_REGISTER_EMAIL_SENT_UNACTIVATE);
+			StatusMap.put(7, ErrorCode.USER_REGISTER_ERROR);
+			StatusMap.put(98, ErrorCode.CHANGYOU_ACCOUNT_IP_BLACKLIST);
+			StatusMap.put(99, ErrorCode.CHANGYOU_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+
+		}
+	}
+
+	// -3本接口异常0下发短信成功,1输入参数不完整,2签名不正确,3用户名已存在,4注册账号格式错误,5密码位数不对【一次MD5加密为32位】,6ip受限
+	// 9禁用词
+	// 9禁用词【个性注册有该返回值】,98IP非白名单,99大平台异常错误
+	public static class CYAccountPersonalRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_REGISTER_ACCOUNT_HASREGISTER);
+			StatusMap.put(4, ErrorCode.USER_CHANGYOU_REGISTER_ACCOUNT_INVALID);
+			StatusMap.put(5, ErrorCode.USER_REGISTER_ERROR);
+			StatusMap.put(6, ErrorCode.USER_CHANGYOU_REGISTER_IP_LIMIT);
+			StatusMap.put(9, ErrorCode.USER_CHANGYOU_ACCOUNT_STOPWORD);
+			StatusMap.put(98, ErrorCode.CHANGYOU_ACCOUNT_IP_BLACKLIST);
+			StatusMap.put(99, ErrorCode.CHANGYOU_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+
+		}
+	}
+
+	public static class CYAccountLogin {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_LOGIN_LIMIT);
+			StatusMap.put(4, ErrorCode.USER_LOGIN_ERROR_CODE2);
+			StatusMap.put(5, ErrorCode.USER_LOGIN_ERROR_CODE3);
+			StatusMap.put(6, ErrorCode.USER_CHANGYOU_LOGIN_ERROR);
+			StatusMap.put(98, ErrorCode.USER_CHANGYOU_LOGIN_ERROR);
+			StatusMap.put(99, ErrorCode.USER_CHANGYOU_LOGIN_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_CHANGYOU_LOGIN_ERROR;
+			}
+		}
+	}
+
+	// 0成功 1参数不完整 2签名不正确 3ip受限 98服务器ip黑名单 99账号系统异常
+	public static class CYTouristRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_LOGIN_LIMIT);
+			StatusMap.put(98, ErrorCode.USER_CHANGYOU_TOURISTREGISTER_FAIL);
+			StatusMap.put(99, ErrorCode.USER_CHANGYOU_TOURISTREGISTER_FAIL);
+		}
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_CHANGYOU_TOURISTREGISTER_FAIL;
+			}
+
+		}
+	}
+	
+	//0成功 1参数不完整 2签名不正确 3ip受限 4oldtoken不正確  5 cn不符合规则 6 cn已存在 7pwd不符合规则  98服务器ip黑名单  99账号系统异常 
+	public static class CYTouristBind {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.CHANGYOU_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(2, ErrorCode.CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(3, ErrorCode.USER_CHANGYOU_LOGIN_LIMIT);
+			
+			StatusMap.put(4, ErrorCode.USER_CHANGYOU_TOURISTBING_TOKENINVAID);
+			StatusMap.put(5, ErrorCode.USER_CHANGYOU_TOURISTBING_ACCOUNTINVAID);
+			StatusMap.put(6, ErrorCode.USER_CHANGYOU_TOURISTBING_ACCOUNTEXIST);
+			StatusMap.put(7, ErrorCode.USER_CHANGYOU_TOURISTBING_PASSWORDINVAID);
+			StatusMap.put(8, ErrorCode.USER_CHANGYOU_TOURISTUPDATECN_FAIL);
+			StatusMap.put(98, ErrorCode.USER_CHANGYOU_TOURISTUPDATECN_FAIL);
+			StatusMap.put(99, ErrorCode.USER_CHANGYOU_TOURISTUPDATECN_FAIL);
+		}
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_CHANGYOU_TOURISTUPDATECN_FAIL;
+			}
+		}
+	}
+	
+	// -1参数不完整 -2app不存在 -3本接口异常1签名失败,2签名已失效,3参数错误,999请求出错，请联系相关技术人员予以解决 
+	public static class OrangeloAccountAutoCreate {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+		}
+	}
+
+	// -1参数不完整 -2app不存在-3本接口异常0成功 1签名失败 2签名失效 3参数错误
+	// 201用户名已存在300下发短信失败301今天该手机短信发送次数超限303手机短信发送过于频繁 999 请求出错，请联系相关技术人员予以解决
+	public static class OrangeAccountPhoneVerify {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(201, ErrorCode.USER_ORANGELO_REGISTER_PHONE_HASREGISTER);
+			StatusMap.put(300, ErrorCode.USER_ORANGELO_REGISTER_CAPTCHA_SEND_FAIL);
+			StatusMap.put(301, ErrorCode.USER_ORANGELO_REGISTER_CAPTCHA_SEND_LIMIT);
+			StatusMap.put(303, ErrorCode.USER_ORANGELO_REGISTER_CAPTCHA_FREQUENTLY);
+			StatusMap.put(241, ErrorCode.USER_ORANGELO_REGISTER_PHONE_INVALID);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+
+		}
+	}
+
+	/*
+	 * -1参数不完整 -2app不存在-3本接口异常
+	 * 1签名失败2签名已失效,3参数错误,200账号规则与类型参数不符(例如:帐号是手机号但是type参数是2
+	 * ),201登陆名已存在。/用户名(手机或邮箱)已被绑定,202手机验证码错误,999请求出错，请联系相关技术人员予以解决
+	 * 241手机号格式错误244手机校验码格式错误245密码格式错误20140805
+	 */
+	public static class OrangeAccountPhoneRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(200, ErrorCode.USER_ORANGELO_REGISTER_PHONE_INVALID);
+			StatusMap.put(201, ErrorCode.USER_ORANGELO_REGISTER_PHONE_HASREGISTER);
+			StatusMap.put(202, ErrorCode.USER_ORANGELO_REGISTER_CAPTCHA_ERROR);
+			StatusMap.put(241, ErrorCode.USER_ORANGELO_REGISTER_PHONE_INVALID);
+			StatusMap.put(244, ErrorCode.USER_ORANGELO_REGISTER_CAPTCHA_INVALID);
+			StatusMap.put(245, ErrorCode.USER_ORANGELO_REGISTER_PASSWORD_INVALID);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+
+		}
+	}
+
+	/*
+	 * -1参数不完整 -2app不存在-3本接口异常
+	 * 1签名失败2签名已失效,3参数错误,200账号规则与类型参数不符(例如:帐号是手机号但是type参数是2
+	 * ),201登陆名已存在。/用户名(手机或邮箱)已被绑定,202手机验证码错误,999请求出错，请联系相关技术人员予以解决
+	 * 243个性账号格式错误245密码格式错误20140805
+	 */
+	public static class OrangeloAccountPersonalRegister {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(200, ErrorCode.USER_ORANGELO_REGISTER_ACCOUNT_TYPE_INVALID);
+			StatusMap.put(201, ErrorCode.USER_ORANGELO_REGISTER_ACCOUNT_HASREGISTER);
+			StatusMap.put(243, ErrorCode.USER_ORANGELO_REGISTER_ACCOUNT_INVALID);
+			StatusMap.put(245, ErrorCode.USER_ORANGELO_REGISTER_PASSWORD_INVALID);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.USER_REGISTER_ERROR;
+			}
+		}
+	}
+
+	/*-1参数不完整 -2app不存在-3本接口异常
+	 *         1签名验证失败,2签名已失效,3参数错误,101用户名不存在,102登录失败。密码错误,103登录失败
+	 *         。用户被禁用一段时间,200账号规则与类型参数不符
+	 *         (例如:帐号是手机号但是type参数是2),999请求出错，请联系相关技术人员予以解决
+	 * 			240账号格式错误20140805
+	 */
+	public static class OrangeloAccountLogin {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(101, ErrorCode.USER_LOGIN_ERROR_CODE2);
+			StatusMap.put(102, ErrorCode.USER_LOGIN_ERROR_CODE3);
+			StatusMap.put(103, ErrorCode.USER_LOGIN_ERROR_CODE13);
+			StatusMap.put(240, ErrorCode.USER_LOGIN_ACCOUNT_INVALID);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+	/*
+	 * -1参数不完整 -2app不存在-3本接口异常
+	 */
+	public static class OrangeloTourisRegister{
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(103, ErrorCode.USER_LOGIN_ERROR_CODE2);
+			StatusMap.put(246, ErrorCode.USER_LOGIN_ERROR_CODE3);
+			StatusMap.put(999, ErrorCode.USER_LOGIN_ERROR_CODE13);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+	/*
+	 * -1参数不完整 -2app不存在-3本接口异常
+	 */
+	public static class OrangeloTourisBind{
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.SDK_SERVICE_PARAM_NOTVALID);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+			StatusMap.put(-3, ErrorCode.SDK_SERVICE_EXCEPTION);
+			StatusMap.put(1, ErrorCode.ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL);
+			StatusMap.put(2, ErrorCode.ORANGELO_ACCOUNT_SIGN_INVALID);
+			StatusMap.put(3, ErrorCode.ORANGELO_ACCOUNT_PARAM_ERROR);
+			StatusMap.put(201, ErrorCode.USER_LOGIN_ERROR_CODE2);
+			StatusMap.put(240, ErrorCode.USER_LOGIN_ERROR_CODE3);
+			StatusMap.put(245, ErrorCode.USER_LOGIN_ERROR_CODE13);
+			StatusMap.put(246, ErrorCode.USER_LOGIN_ACCOUNT_INVALID);
+			StatusMap.put(999, ErrorCode.ORANGELO_ACCOUNT_SYSTEM_ERROR);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+
+	/*
+	 * -1激活失败 -2激活码不符合规定 -3激活码已被使用 -4 app不存在
+	 */
+	public static class UseActivateCode {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.ACTIVATE_CODE_USE_FAIL);
+			StatusMap.put(-2, ErrorCode.ACTIVATE_CODE_NOT_PROVIDE);
+			StatusMap.put(-3, ErrorCode.ACTIVATE_CODE_IS_USED);
+			StatusMap.put(-4, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+
+	/*
+	 * -1激活失败 -2激活码不符合规定 -3激活码已被使用 -4 app不存在
+	 */
+	public static class ActivateCodeVerify {
+		public static Map<Integer, Integer> StatusMap = new HashMap<Integer, Integer>();
+		static {
+			StatusMap.put(-1, ErrorCode.ACTIVATE_CODE_VERIFY_FAIL);
+			StatusMap.put(-2, ErrorCode.SDK_SERVICE_APPKEY_NOT_EXIST);
+		}
+
+		public static int getStatus(int key) {
+			try {
+				return StatusMap.get(key);
+			} catch (java.lang.NullPointerException e) {
+				return ErrorCode.ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL;
+			}
+
+		}
+	}
+}
