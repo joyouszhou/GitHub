@@ -10,7 +10,6 @@
 			<!-- resource.properties;file:/home/app/file/context/conf/gateway/resource.properties -->
 		</param-value>
 	</context-param>
-<!--
 	<listener>
 		<listener-class>com.zhgame.common.custom.InitialListener</listener-class>
 	</listener>
@@ -22,7 +21,6 @@
 			classpath*:/spring-config-others.xml
 		</param-value>
 	</context-param>
--->
 	<context-param>
 		<param-name>spring.profiles.default</param-name>
 		<param-value>production</param-value>
