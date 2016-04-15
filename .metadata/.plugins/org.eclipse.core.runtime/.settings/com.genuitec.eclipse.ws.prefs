@@ -1,0 +1,18 @@
+#Fri Apr 15 15:44:40 CST 2016
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_JAXB.classpath=MYECLIPSE_JERSEY_HOME/1.4/jaxb-api-2.1.jar;MYECLIPSE_JERSEY_HOME/1.4/jaxb-impl-2.1.12.jar;MYECLIPSE_JERSEY_HOME/1.0/activation-1.1.jar;MYECLIPSE_JERSEY_HOME/1.0/stax-api-1.0-2.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_SERVER.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-server-1.4.jar;MYECLIPSE_JERSEY_HOME/1.0/asm-3.1.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_JSON.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-json-1.0.3.1.jar;MYECLIPSE_JERSEY_HOME/1.0/jettison-1.0.1.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_CORE.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-core-1.4.jar;MYECLIPSE_JERSEY_HOME/1.4/jsr311-api-1.1.1.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_ATOM.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-atom-1.4.jar;MYECLIPSE_JERSEY_HOME/1.0/rome-0.9.jar;MYECLIPSE_JERSEY_HOME/1.0/jdom-1.0.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_JAXB.classpath=MYECLIPSE_JERSEY_HOME/1.0/jaxb-api-2.1.jar;MYECLIPSE_JERSEY_HOME/1.0/jaxb-impl-2.1.10.jar;MYECLIPSE_JERSEY_HOME/1.0/activation-1.1.jar;MYECLIPSE_JERSEY_HOME/1.0/stax-api-1.0-2.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_FASTINFOSET.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-fastinfoset-1.0.3.jar;MYECLIPSE_JERSEY_HOME/1.0/FastInfoset-1.2.2.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_CORE.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-server-1.0.3.1.jar;MYECLIPSE_JERSEY_HOME/1.0/jersey-core-1.0.3.1.jar;MYECLIPSE_JERSEY_HOME/1.0/jsr311-api-1.0.jar;MYECLIPSE_JERSEY_HOME/1.0/asm-3.1.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_MAIL.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-multipart-1.4.jar;MYECLIPSE_JERSEY_HOME/1.0/mail-1.4.jar;MYECLIPSE_JERSEY_HOME/1.4/mimepull-1.3.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_ATOM.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-atom-1.0.3.1.jar;MYECLIPSE_JERSEY_HOME/1.0/rome-0.9.jar;MYECLIPSE_JERSEY_HOME/1.0/jdom-1.0.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_FASTINFOSET.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-fastinfoset-1.4.jar;MYECLIPSE_JERSEY_HOME/1.0/FastInfoset-1.2.2.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_CLIENT.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-client-1.0.3.1.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_MAIL.classpath=MYECLIPSE_JERSEY_HOME/1.0/jersey-multipart-1.0.3.1.jar;MYECLIPSE_JERSEY_HOME/1.0/mail-1.4.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_JACKSON.classpath=MYECLIPSE_JERSEY_HOME/1.4/jackson-core-asl-1.5.5.jar;MYECLIPSE_JERSEY_HOME/1.4/jackson-jaxrs-1.5.5.jar;MYECLIPSE_JERSEY_HOME/1.4/jackson-mapper-asl-1.5.5.jar
+eclipse.preferences.version=1
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_CLIENT.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-client-1.4.jar
+melibrary.com.genuitec.eclipse.ws.MYECLIPSE_JERSEY_1_4_JSON.classpath=MYECLIPSE_JERSEY_HOME/1.4/jersey-json-1.4.jar;MYECLIPSE_JERSEY_HOME/1.4/jettison-1.1.jar

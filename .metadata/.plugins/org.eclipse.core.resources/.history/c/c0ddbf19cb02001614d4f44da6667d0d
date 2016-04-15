@@ -1,0 +1,12 @@
+package com.zhouhuan.common.custom;
+
+public class SystemAspect {
+	@Around("within(@org.springframework.stereotype.Controller *)")
+	public Object process(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		Object retVal = pjp.proceed();
+		Object rs = retVal;
+		request.setAttribute(LogUtil.SYS_LOG_RTNDATA, rs);
+		return rs;
+	}
+}

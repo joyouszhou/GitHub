@@ -1,0 +1,92 @@
+package com.zhouhuan.common.custom;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import org.apache.log4j.xml.DOMConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.zhouhuan.common.utils.PropertiesUtil;
+
+public class InitialListener implements ServletContextListener {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(InitialListener.class);
+	public static Map<String, String> SERVER_ERROR_MSG = new HashMap<String, String>();
+	public static Map<String, String> CLIENT_ERROR_MSG = new HashMap<String, String>();
+
+	// 实现其中的销毁函数
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+		System.out.println("this is last destroyeed");
+	}
+
+	// 实现其中的初始化函数，当有事件发生时即触发
+	public void contextInitialized(ServletContextEvent event) {
+		initProperties(event.getServletContext().getInitParameter("resources"));
+		initLog4j();
+		logger.info("-----------------自定义初始化项---------------");
+	}
+
+	private void initLog4j() {
+		String logPath = System.getProperty("log.path");
+		String tomcatBase = System.getProperty("catalina.base");
+
+		if (System.getProperty("os.name").toLowerCase().indexOf("window") == -1) { // linux/unix
+			tomcatBase = tomcatBase.substring(1).replaceAll("/", "-");
+			logPath = logPath.replace("#TEMP_DIR#", tomcatBase);
+		} else { // window
+			logPath = tomcatBase + "/logs";
+		}
+		System.setProperty("log.path", logPath);
+
+		String fileName = "log4j.xml";
+		String path = Thread.currentThread().getContextClassLoader()
+				.getResource("").getPath();
+		DOMConfigurator.configure(path + fileName);// 加载.xml文件
+	}
+
+	// 初始化配置文件
+	private void initProperties(String resource) {
+		try {
+            String projectRource = resource.split(";")[0];
+            String serverRource = resource.split(";")[1];
+            //加载工程下.properties
+            Properties props = PropertiesUtil.loadProperties(projectRource, serverRource);
+            for (Entry<Object, Object> s : props.entrySet()) {
+                System.setProperty("" + s.getKey(), "" + s.getValue());
+            }
+            
+            StringBuffer  buffer = new StringBuffer();
+            for (Entry<Object, Object> s :  System.getProperties().entrySet()) {
+                buffer.append(s.getKey()).append("::").append(s.getValue()).append(LogUtil.tag);
+            }
+            logger.info("Init Properties<"+buffer +">");
+            
+            Properties errorProperties = PropertiesUtil.loadProperties("errorcode.properties");
+            Iterator<Entry<Object, Object>> iterator = errorProperties.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<Object, Object> entry = iterator.next();
+                String key = (String) entry.getKey();
+                String value = (String) entry.getValue();
+                if (!StringUtils.isEmpty(value)) {
+                    String[] values = value.split(";");
+                    if (values.length > 0) {
+                        SERVER_ERROR_MSG.put(key, values[0]);
+                    }
+                    if (values.length == 2) {
+                        CLIENT_ERROR_MSG.put(key, values[1]);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("加载errorcode.properties文件出错：" + e);
+            System.exit(-1);
+            
+        }
+	}
+}

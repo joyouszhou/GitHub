@@ -1,0 +1,8 @@
+package com.zhgame.common.core.spring;
+
+
+
+
+public class MyLogInteceptor {
+
+}

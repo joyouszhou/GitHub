@@ -1,0 +1,6 @@
+package com.zhouhuan.common.custom;
+
+public class InitialListener implements ServletContextListener{
+
+	
+}

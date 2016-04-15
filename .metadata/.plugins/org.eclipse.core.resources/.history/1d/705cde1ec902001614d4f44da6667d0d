@@ -1,0 +1,5 @@
+package com.zhouhuan.common.core.spring;
+
+public class MyLogInteceptor  extends RequestMappingHandlerMapping implements HandlerInterceptor {
+
+}

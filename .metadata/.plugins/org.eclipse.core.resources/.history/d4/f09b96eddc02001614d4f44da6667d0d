@@ -1,0 +1,241 @@
+package com.zhouhuan.common.utils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpInputMessage;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.zhgame.common.custom.BusinessException;
+import com.zhgame.common.custom.ErrorCode;
+import com.zhgame.common.utils.buss.AppUtil;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class SignUtil {
+	protected final static Logger logger = LoggerFactory
+			.getLogger(SignUtil.class);
+
+	/**
+	 * 创建签名
+	 * 
+	 * @param param
+	 *            参数升序串
+	 * @return
+	 * @throws Exception
+	 */
+	public static String createSign(String param) throws Exception {
+		StringBuffer result = new StringBuffer();
+		MessageDigest md5 = MessageDigest.getInstance("MD5");
+		md5.update(param.getBytes("UTF-8"));
+		byte[] b = md5.digest();
+		for (int i = 0; i < b.length; ++i) {
+			int x = b[i] & 0xFF;
+			int h = x >>> 4;
+			int l = x & 0x0F;
+			result.append((char) (h + ((h < 10) ? '0' : 'a' - 10)));
+			result.append((char) (l + ((l < 10) ? '0' : 'a' - 10)));
+		}
+		return result.toString().substring(8, 24);
+	}
+
+	public boolean checkSign(String httpSign, String appKey, String appSecret,
+			String data) throws Exception {
+		String newSign = createSign(appKey + appSecret + data);
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
+		// logger.info("appKey:" + appKey + ";appSecret:" + appSecret +
+		// ";httpSign:" + httpSign + ";newSign:" + newSign);
+		System.out.println(appKey + appSecret + data);
+		request.setAttribute("log_sign", "appKey:" + appKey + ";appSecret:"
+				+ appSecret + ";httpSign:" + httpSign + ";newSign:" + newSign);
+		return httpSign.equals(newSign);
+	}
+
+	/**
+	 * 创建参数升序串
+	 * 
+	 * @param request
+	 *            请求对象
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static String createParam(HttpServletRequest request)
+			throws UnsupportedEncodingException {
+		List<String> keyList = new ArrayList<String>();
+
+		Enumeration<String> enumeration = request.getParameterNames();
+		while (enumeration.hasMoreElements()) {
+			String key = enumeration.nextElement();
+			keyList.add(key);
+		}
+		Collections.sort(keyList, new Comparator<String>() {
+			public int compare(String str1, String str2) {
+				if (str1.compareTo(str2) > 0) {
+					return 1;
+				}
+				if (str1.compareTo(str2) < 0) {
+					return -1;
+				}
+				return 0;
+			}
+		});
+		StringBuffer param = new StringBuffer();
+		for (String key : keyList) {
+			param.append(key);
+			param.append("=");
+			param.append(request.getParameter(key));
+			param.append("&");
+		}
+		return param.toString().replaceAll("\n", "").replaceAll("\r", "");
+	}
+
+	/**
+	 * ip白名单
+	 * 
+	 * @param ip
+	 * @return
+	 */
+	public static boolean isIpList(String ip) {
+		String iplist = PropertiesUtil.getProperty("iplist");
+		if (iplist != null && !StringUtils.isEmpty(iplist)) {
+			String writeList[] = PropertiesUtil.getProperty("iplist")
+					.split(";");
+			for (String po : writeList) {
+				if (po != null && ip.equals(po)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 获取参数 校验签名(dopost方式)
+	 * 
+	 * @param javaType
+	 * @param inputMessage
+	 * @return
+	 */
+	public static Object checkSign(JavaType javaType,
+			HttpInputMessage inputMessage, ObjectMapper objectMapper) {
+		try {
+			HttpHeaders HttpHeaders = inputMessage.getHeaders();
+			String sign = HttpHeaders.get("sign").get(0);
+			String appKey = HttpHeaders.get("app_key").get(0);
+
+			InputStream in = inputMessage.getBody();
+			StringBuffer out = new StringBuffer();
+			byte[] b = new byte[4096];
+			for (int n; (n = in.read(b)) != -1;) {
+				out.append(new String(b, 0, n));
+			}
+			String data = out.toString();
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+					.getRequestAttributes()).getRequest();
+			request.setAttribute(LogUtil.SYS_LOG_PARAMS, data);
+			// logger.info(MessageFormat.format("POST method Permissions Sign: app_key=[{0}],sign=[{1}],tag=[{2}],channel_id=[{3}],data=[{4}]",
+			// appKey, sign, tag,channelId, data));
+			SignUtil signUtil = new SignUtil();
+			try {
+				boolean check = signUtil.checkSign(sign, appKey, data.trim());
+				if (!check) {
+					throw new BusinessException(ErrorCode.NO_PERMISSION);
+				}
+			} catch (Exception e) {
+				logger.error("check sign error", e);
+				throw new BusinessException(ErrorCode.NO_PERMISSION);
+			}
+			return objectMapper.readValue(data, javaType);
+		} catch (IOException ex) {
+			throw new HttpMessageNotReadableException("Could not read JSON: "
+					+ ex.getMessage(), ex);
+		}
+	}
+
+	/**
+	 * 获取参数 校验签名(doget方式) 拦截规则 （1）debug模式 （2）白名单 （3）签名算法
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	public static boolean checkSign(HttpServletRequest request)
+			throws Exception {
+
+		String ret = RequestUtil.getUrl(request);
+		String appKey = request.getHeader("app_key");
+		String httpSign = request.getHeader("sign");
+		if ("POST".equals(request.getMethod())) {
+			return true;
+		} else {
+			String data = "";
+			String[] arr = ret.split("\\?");
+			int length = arr.length;
+			if (arr != null && length >= 2) {
+				String param = "";
+				for (int i = 1; i < length; i++) {
+					param += "?" + arr[i];
+				}
+				if (!StringUtils.isEmpty(param)) {
+					data = param.substring(1, param.length());
+				}
+			}
+			data = URLDecoder.decode(data, "UTF-8");
+			// logger.info(MessageFormat.format("GET method Permissions Sign: app_key=[{0}],sign=[{1}],tag=[{2}],channel_id=[{3}],data=[{4}]",appKey,
+			// httpSign, tag, channelId, data));
+			request.setAttribute(LogUtil.SYS_LOG_PARAMS, data);
+			SignUtil signUtil = new SignUtil();
+			// 签名校验
+			boolean flag = signUtil.checkSign(httpSign, appKey, data);
+			if (flag) {
+				return true;
+			} else {
+				throw new BusinessException(ErrorCode.NO_PERMISSION);
+			}
+		}
+	}
+
+	public static String Sign(String prestr, String secret) {
+		return Sign(prestr, secret, "md5");
+	}
+
+	public static String Sign(String prestr, String secret, String sign_type) {
+		return Sign(prestr, secret, sign_type, "utf-8");
+	}
+
+	public static String Sign(String prestr, String secret, String sign_type,
+			String _input_charset) {
+		StringBuffer s = new StringBuffer();
+		s.append(prestr);
+		s.append("&client_secret=");
+		s.append(secret);
+		prestr = s.toString();
+		System.out.println("prestr:" + prestr);
+		String str;
+		try {
+			str = Md5Utils.EncodeMD5Hex(prestr);
+			return str;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+}

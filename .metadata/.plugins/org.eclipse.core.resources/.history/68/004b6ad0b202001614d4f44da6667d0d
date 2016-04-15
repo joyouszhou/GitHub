@@ -1,0 +1,6 @@
+package com.zhgame.common.core.spring;
+
+public class MyLogInteceptor extends RequestMappingHandlerMapping implements HandlerInterceptor {
+	
+
+}

@@ -1,0 +1,41 @@
+package com.zhouhuan.common.custom.base;
+
+public class ErrorCode {
+	/**
+	 * 服务器级别
+	 */
+	public final static int SYSTEM_ERROR = 10001; // 服务器异常
+	public final static int SYSTEM_REQUEST_TIMEOUT = 10002; // 请求超时
+	public final static int SYSTEM_SYNC_APP_ERROR = 10003; // app同步失败
+
+	/**
+	 * 验证级别
+	 */
+	public final static int METHOD_ARGUMENT_NOTVALID = 30001; // MethodArgumentNotValidException
+	public static final int NO_PERMISSION = 30002; // 无权限访问，签名验证失败
+	public final static int HEADER_NOT_EMPTY = 30003; // http请求头里参数不能为空
+	public final static int PHONE_NOTVALID = 30004;
+	public final static int EMAIL_NOTVALID = 30005;
+	public final static int PARAMS_NOTVALID = 30006; //参数不完整 20141018海外版本
+	
+	/**
+	 * sdk-service公共返回值封装
+	 */
+	public final static int SDK_SERVICE_PARAM_NOTVALID = 20001; // 参数无效
+	public final static int SDK_SERVICE_APPKEY_NOT_EXIST = 20002; // app不存在
+	public final static int SDK_SERVICE_EXCEPTION = 20003; // sdk-service异常
+
+	public final static int ORANGELO_ACCOUNT_SIGN_VERIFY_FAIL = 20004; // 橙柚账号签名错误
+	public final static int ORANGELO_ACCOUNT_SIGN_INVALID = 20005; // 橙柚账号签名无效
+																	// 过期
+	public final static int ORANGELO_ACCOUNT_PARAM_ERROR = 20006; // 橙柚账号参数错误
+	public final static int ORANGELO_ACCOUNT_SYSTEM_ERROR = 20007; // 橙柚账号系统错误
+	public final static int ORANGELO_ACCOUNT_RETURN_UNKNOWN_PROTOCOL = 20008; // 橙柚账号协议之外
+
+	public final static int CHANGYOU_ACCOUNT_PARAM_ERROR = 20009; // 参数不完整
+	public final static int CHANGYOU_ACCOUNT_SIGN_VERIFY_FAIL = 20010; // 签名不正确
+	public final static int CHANGYOU_ACCOUNT_IP_BLACKLIST = 20011; // ip黑名单 98
+	public final static int CHANGYOU_ACCOUNT_SYSTEM_ERROR = 20012; // ip黑名单 99
+	public final static int CHANGYOU_ACCOUNT_RETURN_UNKNOWN_PROTOCOL = 20013; // 畅游账号协议之外
+
+}

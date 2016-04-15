@@ -1,0 +1,5 @@
+package com.zhouhuan.common.core.spring;
+
+public class MyLogInteceptor {
+
+}

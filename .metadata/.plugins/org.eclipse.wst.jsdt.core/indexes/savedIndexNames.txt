@@ -1,5 +1,2 @@
 INDEX VERSION 1.122+D:\MySvn2\GitHub\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-669417100.index
-1009235879.index
-3742566926.index
-1001092204.index
+4004750702.index

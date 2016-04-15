@@ -1,0 +1,81 @@
+package com.zhouhuan.common.core.spring;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+public class MyPermissionsInteceptor implements HandlerInterceptor{
+
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object obj, Exception e) throws Exception {
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object obj, ModelAndView view) throws Exception {
+	}
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
+
+		/************************************ 白名单 *******************************************/
+		//todo  处理ip白名单等操作
+		
+//		
+//		String ip = RequestUtil.getRequestIp(request);
+//		if (!StringUtils.isEmpty(ip) && SignUtil.isIpList(ip)) {
+//			return true;
+//		}
+//		if (checkHeaders(request)) {
+//			return SignUtil.checkSign(request);
+//		} else {
+//			throw new BusinessException(ErrorCode.NO_PERMISSION);
+//		}
+		return true;
+	}
+//
+//	/**
+//	 * 校验请求头中必传参数
+//	 * 
+//	 * @param request
+//	 * @return
+//	 * @throws MethodArgumentNotValidException
+//	 */
+//	private boolean checkHeaders(HttpServletRequest request) throws MethodArgumentNotValidException {
+//		String appKey = request.getHeader("app_key");
+//		String channelId = request.getHeader("channel_id");
+//		String tag = request.getHeader("tag");
+//		String httpSign = request.getHeader("sign");
+//		BindingResult result = new BeanPropertyBindingResult(null, "objectName");
+//
+//		if (StringUtils.isEmpty(appKey)) {
+//			ObjectError error = new FieldError("appkey", "app_key", "app_key is null");
+//			result.addError(error);
+//			throw new MethodArgumentNotValidException(null, result);
+//		}
+//		if (StringUtils.isEmpty(channelId)) {
+//			ObjectError error = new FieldError("channel_id", "channel_id", "channel_id is null");
+//			result.addError(error);
+//			throw new MethodArgumentNotValidException(null, result);
+//		}
+//		if (StringUtils.isEmpty(tag)) {
+//			ObjectError error = new FieldError("tag", "tag", "tag is null");
+//			result.addError(error);
+//			throw new MethodArgumentNotValidException(null, result);
+//		}
+//		if (StringUtils.isEmpty(httpSign)) {
+//			ObjectError error = new FieldError("sign", "sign", "sign is null");
+//			result.addError(error);
+//			throw new MethodArgumentNotValidException(null, result);
+//		}
+//		return true;
+//	}
+
+}

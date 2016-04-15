@@ -1,0 +1,5 @@
+package com.zhouhuan.common.custom;
+
+public class BusinessException {
+
+}

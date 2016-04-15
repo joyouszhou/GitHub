@@ -1,0 +1,5 @@
+package com.zhouhuan.common.utils;
+
+public class MetaInfo  implements Serializable{
+
+}

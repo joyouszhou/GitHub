@@ -1,0 +1,5 @@
+package com.zhouhuan.common.utils;
+
+public class SignUtil {
+	protected final static Logger logger = LoggerFactory.getLogger(SignUtil.class);
+}

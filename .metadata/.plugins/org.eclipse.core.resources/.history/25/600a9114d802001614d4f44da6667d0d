@@ -1,0 +1,6 @@
+package com.zhouhuan.common.utils;
+
+import java.io.Serializable;
+public class MetaInfo  implements Serializable{
+
+}
