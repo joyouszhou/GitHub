@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	 <!-- info和error日志 每天一个日志  -->  
+	 <appender name="default_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/gateway/gateway-default.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		 <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<param name="threshold" value="INFO"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] - %m%n"/>
+		</layout>
+	</appender> 
+	<!-- error日志 每天一个日志  -->  
+  	<appender name="error_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/gateway/gateway-error.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		 <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<param name="threshold" value="ERROR"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] - %m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- 输出到控制台中 -->  
+    <appender name="console_appender" class="org.apache.log4j.ConsoleAppender">  
+   		<param name="encoding" value="utf-8"/>
+        <layout class="org.apache.log4j.PatternLayout">  
+            <param name="ConversionPattern" value="{%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p%-10l: %m%n" />
+        </layout>  
+    </appender>  
+     
+	<!-- 访问日志 每天一个日志  -->  
+	<appender name="access_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/gateway/gateway-access.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		 <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<param name="threshold" value="INFO"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] - %m%n"/>
+		</layout>
+	</appender> 
+	
+	<appender name="hibernate_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/gateway/gateway-sql.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS\}] %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="DEBUG" />
+			<param name="LevelMax" value="DEBUG" />
+		</filter>
+	</appender> 
+	
+	<!-- 访问billing日志 每天一个日志  -->  
+	<appender name="billing_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/gateway/gateway-billing.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		 <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<param name="threshold" value="INFO"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS\} %-5p] [%t] - %m%n"/>
+		</layout>
+	</appender> 
+	
+
+	<!-- 创建订单日志 每天一个日志  --> 
+	<appender name="create_appender_daily" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="/tmp/zlongameLogs/sdklog/sdkcreate.log"/>
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		 <!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->  
+        <param name="Append" value="true" />  
+		<param name="encoding" value="utf-8"/>
+		<param name="threshold" value="INFO"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n"/>
+		</layout>
+	</appender>	
+	
+	<appender name="syslog" class="org.apache.log4j.net.SyslogAppender">
+	<param name="SyslogHost" value="10.127.2.118" />
+	<param name="Port" value="514" />
+	<param name="header" value="utf-8" />
+	<param name="Facility" value="local1" />
+	<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" value="%m%n" />
+	</layout>
+</appender>
+	
+	<logger name="billing-create" level="info">
+        <appender-ref ref="create_appender_daily"/>
+    </logger> 
+ 	
+	<logger name="gateway-access" level="info">
+        <appender-ref ref="access_appender_daily"/>
+    </logger>
+	<logger name="org.hibernate.SQL" additivity="true">
+		<level value="DEBUG" />
+		<appender-ref ref="hibernate_appender_daily" />
+	</logger>
+	<logger name="gateway-billing" level="info">
+        <appender-ref ref="billing_appender_daily"/>
+    </logger>
+    
+	<root>
+ 		<!-- root 整体设置过滤优先级，如果appender 没有设置filter或Threshold 默认采用该级别，定义的logger不在其中（即不会被过滤掉）。 -->  
+	    <priority value="INFO"/>
+		<appender-ref ref="default_appender_daily"/>
+		<appender-ref ref="error_appender_daily"/>
+		<appender-ref ref="console_appender"/>
+	</root>
+	
+</log4j:configuration>

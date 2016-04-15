@@ -5,9 +5,7 @@
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name></display-name>
 	<!-- 初始化方法 -->
-	<listener>
-		<listener-class>com.zhgame.common.custom.InitialListener</listener-class>
-	</listener>
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value> 

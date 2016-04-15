@@ -7,10 +7,8 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-	<context:component-scan base-package="com.zhouhuan"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="com.zhouhuan" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
 	<bean
@@ -18,37 +16,21 @@
 		<property name="interceptors">
 			<list>
 				<!-- 日志拦截器 -->
-				<bean id="myLogInteceptor" class="com.zhouhuan.common.core.spring.MyLogInteceptor" />
+				<!-- <bean id="myLogInteceptor" class="com.zhouhuan.common.core.spring.MyLogInteceptor" /> -->
 				<!-- 权限拦截器 -->
-				<bean id="myPermissionsInteceptor"
-					class="com.zhouhuan.common.core.spring.MyPermissionsInteceptor" />
+				<!-- <bean id="myPermissionsInteceptor" class="com.zhouhuan.common.core.spring.MyPermissionsInteceptor" /> -->
 			</list>
 		</property>
 	</bean>
-	<bean id="systemAspect" class="com.zhouhuan.common.custom.SystemAspect" />
+	<!-- <bean id="systemAspect" class="com.zhouhuan.common.custom.SystemAspect" />
 	<aop:aspectj-autoproxy proxy-target-class="true">
 		<aop:include name="systemAspect" />
-	</aop:aspectj-autoproxy>
-	<bean
-		class='org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter'>
-		<property name='webBindingInitializer'>
-			<bean
-				class='org.springframework.web.bind.support.ConfigurableWebBindingInitializer'>
-				<property name='conversionService' ref='conversionService'></property>
-				<property name='validator'>
-					<bean
-						class='org.springframework.validation.beanvalidation.LocalValidatorFactoryBean'>
-						<property name="providerClass"
-							value="org.hibernate.validator.HibernateValidator" />
-						<property name="validationMessageSource" ref="messageSource" />
-					</bean>
-				</property>
-			</bean>
-		</property>
+	</aop:aspectj-autoproxy> -->
+	
+	<bean class='org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter'>
 		<property name='messageConverters'>
 			<list>
-				<bean
-					class="org.springframework.http.converter.StringHttpMessageConverter">
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 					<constructor-arg value="UTF-8" />
 					<property name="supportedMediaTypes">
 						<list>
@@ -65,16 +47,13 @@
 						</list>
 					</property>
 				</bean>
-				<bean
-					class="com.zhouhuan.common.core.spring.MyMappingJackson2HttpMessageConverter">
-					<property name="objectMapper">
-						<bean name="customJacksonObjectMapper"
-							class="com.zhouhuan.common.core.spring.CustomJacksonObjectMapper" />
-					</property>
-				</bean>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+	                <property name="prettyPrint" value="true"/>
+	            </bean>
 			</list>
 		</property>
 	</bean>
+	
 	<!-- 类型转换及数据格式化 -->
 	<bean id="conversionService"
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />

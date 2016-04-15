@@ -15,7 +15,7 @@ public class LogFormat {
 		if (info == null) {
 			info = "";
 		}
-
+		
 		MetaInfo meta = getMetaInfo();
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[PROCESS]");
