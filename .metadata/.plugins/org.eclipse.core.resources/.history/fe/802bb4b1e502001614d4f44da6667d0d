@@ -1,0 +1,5 @@
+package com.zhouhuan.common.utils.buss;
+
+public class SystemInfoUtil {
+
+}

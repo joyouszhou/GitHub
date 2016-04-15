@@ -1,0 +1,10 @@
+package com.zhouhuan.common.custom.base;
+
+public class ErrorCode {
+	
+	
+	
+	public static final int NO_PERMISSION 				= 10001; 					// 无权限访问，签名验证失败
+	
+
+}

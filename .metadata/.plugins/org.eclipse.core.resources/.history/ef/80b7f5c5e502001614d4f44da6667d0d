@@ -1,0 +1,168 @@
+package com.zhouhuan.common.core.spring;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSONObject;
+import com.zhouhuan.common.utils.LogUtil;
+import com.zhouhuan.common.utils.RequestUtil;
+import com.zhouhuan.common.utils.buss.SystemInfoUtil;
+import com.zhouhuan.common.custom.BusinessException;
+import com.zhouhuan.common.custom.SystemException;
+import com.zhouhuan.common.custom.base.ErrorResponse;
+
+public class CustomExcepitionHandler implements HandlerExceptionResolver{
+	private static MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+	private static final String SYSTEM_ERROR = "SYSTEM-EXCEPTION";
+	private static final String BUSINESS_ERROR = "BUSINESS-EXCEPTION";
+	private static final String VALIDATE_ERROR = "VALIDATE-EXCEPTION";
+	private static final String UNKNOW_ERROR = "UNKNOW-EXCEPTION";
+
+	@Override
+	public ModelAndView resolveException(HttpServletRequest arg0, HttpServletResponse arg1, Object obj, Exception e) {
+		boolean email_on_off = false;
+		String accessInfo = LogUtil.accessString(arg0);// request访问所有信息
+		String systemInfo = SystemInfoUtil.getInstance(arg0).getSystemInfo();
+		String ret = RequestUtil.getUrl(arg0);
+		ErrorResponse errorResponse = null;
+		String requestResult = "";
+		String context = "";
+		String subject = "";
+
+		if (e instanceof SystemException) {
+			email_on_off = true;
+			int errorCode = ((SystemException) e).getExceptionCode();
+			String errorInfo = ((SystemException) e).getExceptionInfo();
+			Exception ex = ((SystemException) e).getException();
+			errorResponse = new ErrorResponse(errorCode, errorInfo, null, ret);
+			requestResult = JSONObject.toJSONString(errorResponse);
+			context = ex == null ? SYSTEM_ERROR : ex.getMessage();
+			if(StringUtils.isEmpty(context)){
+				context = ex.getMessage() == null ? "" : ex.getMessage();
+			}
+			subject = SYSTEM_ERROR;
+			arg1.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			LogUtil.logError("GATEWAY-SYSTEMEXCEPTION", e);
+		} else if (e instanceof BusinessException) {
+			email_on_off = false;
+			int errorCode = ((BusinessException) e).getExceptionCode();
+			String errorInfo = ((BusinessException) e).getExceptionInfo();
+			Exception ex = ((BusinessException) e).getException();
+			errorResponse = new ErrorResponse(errorCode, errorInfo, null, ret);
+			requestResult = JSONObject.toJSONString(errorResponse);
+			context = ex == null ? BUSINESS_ERROR : ex.getMessage();
+			if(StringUtils.isEmpty(context)){
+				context = ex.getMessage() == null ? "" : ex.getMessage();
+			}
+			subject = BUSINESS_ERROR;
+			arg1.setStatus(HttpStatus.BAD_REQUEST.value());
+
+		} else if (e instanceof MethodArgumentNotValidException) {// Form表单校验异常处理
+			email_on_off = false;
+			BindingResult result = ((MethodArgumentNotValidException) e).getBindingResult();
+			List<FieldError> fieldErrors = result.getFieldErrors();
+			StringBuffer msgs = new StringBuffer();
+			for (FieldError fieldError : fieldErrors) {
+				msgs.append(fieldError.getDefaultMessage());
+			}
+			errorResponse = new ErrorResponse(ErrorCode.METHOD_ARGUMENT_NOTVALID, msgs.toString(), msgs.toString(),
+					ret);
+			requestResult = JSONObject.toJSONString(errorResponse);
+			context = msgs.toString() == null ? VALIDATE_ERROR : msgs.toString();
+			subject = VALIDATE_ERROR;
+			arg1.setStatus(HttpStatus.BAD_REQUEST.value());
+
+		} else {
+			email_on_off = true;
+			String msg = null;
+			if (e.getCause() != null) {
+				msg = e.getCause().getMessage();
+			} else {
+				msg = e.getLocalizedMessage();
+			}
+			msg = StringUtils.isBlank(msg) ? null : msg;
+			errorResponse = new ErrorResponse(ErrorCode.SYSTEM_ERROR, msg, null, ret);
+			requestResult = JSONObject.toJSONString(errorResponse);
+			context = (msg == null ? UNKNOW_ERROR : msg);
+			subject = UNKNOW_ERROR;
+			arg1.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+			LogUtil.logError("GATEWAY-SYSTEMEXCEPTION", e);
+		}
+		if (email_on_off) {
+			new EmailThread(ret, accessInfo, requestResult, context, subject,systemInfo,arg0).start();
+		}
+
+		try {
+			arg0.setAttribute(LogUtil.SYS_LOG_RTNDATA, errorResponse);
+			converter.write(errorResponse, MediaType.APPLICATION_JSON, new ServletServerHttpResponse(arg1));
+		} catch (HttpMessageNotWritableException e1) {
+			LogUtil.logError("GATEWAY-CUSTOMEXCEPITIONHANDLER-EXCEPTION", e1);
+		} catch (IOException e1) {
+			LogUtil.logError("GATEWAY-CUSTOMEXCEPITIONHANDLER-EXCEPTION", e1);
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unused")
+	class EmailThread extends Thread {
+		private String ret;
+		private String accessInfo;
+		private String requestResult;
+		private String context;
+		private String subject;
+		private String systemInfo;
+        private HttpServletRequest request;
+		
+		public EmailThread(String ret, String accessInfo, String requestResult, String context, String subject, String systemInfo,
+				HttpServletRequest request) {
+			super();
+			this.ret = ret;
+			this.accessInfo = accessInfo;
+			this.requestResult = requestResult;
+			this.context = context;
+			this.subject = subject;
+			this.systemInfo = systemInfo;
+			this.request = request;
+		}
+
+
+		@Override
+		public void run() {
+			super.run();
+			Map<String, String> emailContent = new HashMap<String, String>();
+			emailContent.put("requestPath", ret);
+			emailContent.put("requestAccess", accessInfo);
+			emailContent.put("systemInfo", systemInfo);
+			emailContent.put("requestResult", requestResult);
+			emailContent.put("context", context);
+//			mailService.sendMail(subject, emailContent);
+			
+//			Map<String,Object> map = new HashMap<String,Object>();
+//			map.put("appkey", request.getHeader("app_key"));
+//		    map.put("channel_id", request.getHeader("channel_id"));
+//		    map.put("opcode", 10000);
+//		    map.put("level", 10000);
+//		    map.put("date", Calendar.getInstance().getTime());
+//		    map.put("data", systemInfo+accessInfo+context);
+//			SendData.send(JSONObject.toJSONString(map),request);
+		}
+
+	}
+}

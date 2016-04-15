@@ -1,0 +1,7 @@
+package com.zhouhuan.common.custom;
+
+import com.zhouhuan.common.custom.base.MyException;
+
+public class SystemException extends MyException{
+
+}

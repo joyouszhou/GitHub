@@ -55,29 +55,6 @@ public class LogUtil {
 	 * @return
 	 */
 	public static String accessString(HttpServletRequest request) {
-//        String ip = RequestUtil.getRequestIp(request);
-//        String url = request.getRequestURI();
-//        String params = (String) request.getAttribute(SYS_LOG_PARAMS);
-//        String headers = getHeaders(request);
-//        String uuid = (String) request.getAttribute(SYS_LOG_UUID);
-//        String sign = (String) request.getAttribute(SYS_LOG_SIGN);
-//        Long cost = System.currentTimeMillis() - (Long) request.getAttribute(SYS_COST);
-//
-//        StringBuilder s = new StringBuilder();
-//        s.append(getBlock(cost+"ms"));
-//        s.append(getBlock(uuid));
-//        s.append(getBlock(ip));
-//        s.append(getBlock(url));
-//        s.append(getBlock(sign));
-//        s.append(getBlock(headers));
-//        s.append(getBlock(params));
-//		String rtnData = JSONObject.toJSONString(request.getAttribute(SYS_LOG_RTNDATA));
-//		if (rtnData.length() > 200) {
-//			s.append(getBlock(rtnData.substring(0, 200)+"*"));
-//		} else {
-//			s.append(getBlock(rtnData));
-//		}
-//		return s.toString();
 		String ip = RequestUtil.getRequestIp(request);
 		String params = (String) request.getAttribute(SYS_LOG_PARAMS);
         String headers = getHeaders(request);

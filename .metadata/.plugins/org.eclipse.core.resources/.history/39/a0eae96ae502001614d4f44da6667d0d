@@ -1,0 +1,95 @@
+package com.zhouhuan.common.custom.base;
+import org.apache.commons.lang3.StringUtils;
+
+import com.zhgame.common.custom.InitialListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+public class ErrorResponse {
+	@JsonProperty("error_code")
+	private int errorCode;
+	
+	@JsonProperty("sys_message")
+	private String sysMessage;
+	
+	@JsonProperty("client_message")
+	private String clientMessage;
+	
+	private String request;
+	
+	@JsonIgnore
+	private String key;
+	
+	public ErrorResponse(){}
+	
+	public ErrorResponse(int errorCode, String sysMessage, String clientMessage, String reqUrl){
+		
+		this.errorCode = errorCode;
+		if(!StringUtils.isEmpty(sysMessage)){
+			this.sysMessage = sysMessage;
+		}else{
+			this.sysMessage = InitialListener.SERVER_ERROR_MSG.get(String.valueOf(errorCode));
+		}
+		if(!StringUtils.isEmpty(clientMessage)){
+			this.clientMessage = clientMessage;
+		}else{
+			this.clientMessage = InitialListener.CLIENT_ERROR_MSG.get(String.valueOf(errorCode));
+		}
+		this.request = reqUrl;
+	}
+	
+	public int getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getSysMessage(String code) {
+		String msg = System.getProperty(code);
+		if(msg!=null){
+			return msg.split(";")[0];
+		}
+		return msg;
+	}
+
+	public void setSysMessage(String sysMessage) {
+		this.sysMessage = sysMessage;
+	}
+
+	public String getClientMessage(String code) {
+		String msg = System.getProperty(code);
+		if(msg!=null){
+			return msg.split(";")[1];
+		}
+		return msg;
+	}
+
+	public void setClientMessage(String clientMessage) {
+		this.clientMessage = clientMessage;
+	}
+
+	public String getRequest() {
+		return request;
+	}
+
+	public void setRequest(String request) {
+		this.request = request;
+	}
+	
+	public String getSysMessage() {
+		return sysMessage;
+	}
+
+	public String getClientMessage() {
+		return clientMessage;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+}
